@@ -1,21 +1,5 @@
 name: Publish
 on:
-  workflow_dispatch:
-    inputs:
-      channel:
-        default: stable
-        required: true
-        type: string
-      version:
-        required: true
-        type: string
-      target_commitish:
-        required: true
-        type: string
-      prerelease:
-        default: false
-        required: true
-        type: boolean
   workflow_call:
     inputs:
       channel:
