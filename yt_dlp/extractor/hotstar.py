@@ -115,11 +115,11 @@ class HotStarIE(HotStarBaseIE):
             'upload_date': '20190501',
             'duration': 1219,
             'channel': 'StarPlus',
-            'channel_id': 3,
+            'channel_id': '3',
             'series': 'Ek Bhram - Sarvagun Sampanna',
             'season': 'Chapter 1',
             'season_number': 1,
-            'season_id': 6771,
+            'season_id': '6771',
             'episode': 'Janhvi Targets Suman',
             'episode_number': 8,
         }
@@ -135,12 +135,32 @@ class HotStarIE(HotStarBaseIE):
             'channel': 'StarPlus',
             'series': 'Anupama',
             'season_number': 1,
-            'season_id': 7399,
+            'season_id': '7399',
             'upload_date': '20230307',
             'episode': 'Anupama, Anuj Share a Moment',
             'episode_number': 853,
             'duration': 1272,
-            'channel_id': 3,
+            'channel_id': '3',
+        },
+        'skip': 'HTTP Error 504: Gateway Time-out',  # XXX: Investigate 504 errors on some episodes
+    }, {
+        'url': 'https://www.hotstar.com/in/shows/kana-kaanum-kaalangal/1260097087/back-to-school/1260097320',
+        'info_dict': {
+            'id': '1260097320',
+            'ext': 'mp4',
+            'title': 'Back To School',
+            'season': 'Chapter 1',
+            'description': 'md5:b0d6a4c8a650681491e7405496fc7e13',
+            'timestamp': 1650564000,
+            'channel': 'Hotstar Specials',
+            'series': 'Kana Kaanum Kaalangal',
+            'season_number': 1,
+            'season_id': '9441',
+            'upload_date': '20220421',
+            'episode': 'Back To School',
+            'episode_number': 1,
+            'duration': 1810,
+            'channel_id': '54',
         },
     }, {
         'url': 'https://www.hotstar.com/in/clips/e3-sairat-kahani-pyaar-ki/1000262286',
@@ -153,6 +173,19 @@ class HotStarIE(HotStarBaseIE):
             'upload_date': '20210606',
             'timestamp': 1622943900,
             'duration': 5395,
+        },
+    }, {
+        'url': 'https://www.hotstar.com/in/movies/premam/1000091195',
+        'info_dict': {
+            'id': '1000091195',
+            'ext': 'mp4',
+            'title': 'Premam',
+            'release_year': 2015,
+            'description': 'md5:d833c654e4187b5e34757eafb5b72d7f',
+            'timestamp': 1462149000,
+            'upload_date': '20160502',
+            'episode': 'Premam',
+            'duration': 8994,
         },
     }, {
         'url': 'https://www.hotstar.com/movies/radha-gopalam/1000057157',
@@ -200,8 +233,10 @@ class HotStarIE(HotStarBaseIE):
         video_type = self._TYPE.get(video_type, video_type)
         cookies = self._get_cookies(url)  # Cookies before any request
 
-        video_data = self._call_api_v1(f'{video_type}/detail', video_id,
-                                       query={'tas': 10000, 'contentId': video_id})['body']['results']['item']
+        video_data = traverse_obj(
+            self._call_api_v1(
+                f'{video_type}/detail', video_id, fatal=False, query={'tas': 10000, 'contentId': video_id}),
+            ('body', 'results', 'item', {dict})) or {}
         if not self.get_param('allow_unplayable_formats') and video_data.get('drmProtected'):
             self.report_drm(video_id)
 
@@ -286,14 +321,15 @@ class HotStarIE(HotStarBaseIE):
             'description': video_data.get('description'),
             'duration': int_or_none(video_data.get('duration')),
             'timestamp': int_or_none(traverse_obj(video_data, 'broadcastDate', 'startDate')),
+            'release_year': int_or_none(video_data.get('year')),
             'formats': formats,
             'subtitles': subs,
             'channel': video_data.get('channelName'),
-            'channel_id': video_data.get('channelId'),
+            'channel_id': str_or_none(video_data.get('channelId')),
             'series': video_data.get('showName'),
             'season': video_data.get('seasonName'),
             'season_number': int_or_none(video_data.get('seasonNo')),
-            'season_id': video_data.get('seasonId'),
+            'season_id': str_or_none(video_data.get('seasonId')),
             'episode': video_data.get('title'),
             'episode_number': int_or_none(video_data.get('episodeNo')),
         }
