@@ -453,14 +453,9 @@ class NiconicoIE(InfoExtractor):
         video_id = self._match_id(url)
 
         try:
-            webpage, handle = self._download_webpage_handle(
-                'https://www.nicovideo.jp/watch/' + video_id, video_id)
-            if video_id.startswith('so'):
-                video_id = self._match_id(handle.url)
-
-            api_data = self._parse_json(self._html_search_regex(
-                'data-api-data="([^"]+)"', webpage,
-                'API data', default='{}'), video_id)
+            api_data = self._download_json(
+                f'https://www.nicovideo.jp/api/watch/v3/{video_id}?_frontendId=6&_frontendVersion=0&actionTrackId=AAAAAAAAAA_{round(time.time() * 1000)}', video_id,
+                note='Downloading API JSON', errnote='Unable to fetch data')['data']
         except ExtractorError as e:
             try:
                 api_data = self._download_json(
