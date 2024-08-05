@@ -4,6 +4,19 @@
 # To create a release, dispatch the https://github.com/yt-dlp/yt-dlp/actions/workflows/release.yml workflow on master
 -->
 
+### 2024.08.06
+
+#### Core changes
+- [Merge remote-tracking branch 'origin/master'](https://github.com/yt-dlp/yt-dlp/commit/b15c3c5ac7ed9e627f8465fef1d1924c22ecda07) by [pukkandan](https://github.com/pukkandan)
+- [fix niconico](https://github.com/yt-dlp/yt-dlp/commit/531b3851003b42912076286ceebc056ae1f4c967) by [pukkandan](https://github.com/pukkandan)
+- [fix niconico](https://github.com/yt-dlp/yt-dlp/commit/90e613d244191b8f5be7a80fb8fe72751eb43d9a) by [pukkandan](https://github.com/pukkandan)
+- [fix niconico](https://github.com/yt-dlp/yt-dlp/commit/9bfb52a8694cd6bb8a207888127bedae7b755b56) by [pukkandan](https://github.com/pukkandan)
+
+#### Extractor changes
+- **discoveryplusitaly**: [Support sport and olympics URLs](https://github.com/yt-dlp/yt-dlp/commit/e7d73bc4531ee3f91a46b15e218dcc1fbeb6226c) ([#10655](https://github.com/yt-dlp/yt-dlp/issues/10655)) by [bashonly](https://github.com/bashonly)
+- **olympics**: [Fix extraction](https://github.com/yt-dlp/yt-dlp/commit/919540a9644e55deb78cdd6751757ec8fdaf76f4) ([#10625](https://github.com/yt-dlp/yt-dlp/issues/10625)) by [bashonly](https://github.com/bashonly)
+- **youku**: [Fix extractor](https://github.com/yt-dlp/yt-dlp/commit/0088c6de23d832b117061a33e984dc452d992e9c) ([#10626](https://github.com/yt-dlp/yt-dlp/issues/10626)) by [hugepower](https://github.com/hugepower)
+
 ### 2024.08.01
 
 #### Core changes
