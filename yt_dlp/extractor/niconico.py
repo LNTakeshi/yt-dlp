@@ -453,6 +453,11 @@ class NiconicoIE(InfoExtractor):
         video_id = self._match_id(url)
 
         try:
+            webpage, handle = self._download_webpage_handle(
+                'https://www.nicovideo.jp/watch/' + video_id, video_id)
+            if video_id.startswith('so'):
+                video_id = self._match_id(handle.url)
+
             api_data = self._parse_json(
                 self._html_search_meta('server-response', webpage), video_id)['data']['response']
         except ExtractorError as e:
